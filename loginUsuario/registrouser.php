@@ -96,18 +96,21 @@
                   <input type="text" class="form-control" id="usario" name="usuario"
                   placeholder="myuser" required autofocus>
                   <label for="user">Usuario</label>
+                  <div class="error-message" style="color: red; display: none;">Este campo es obligatorio</div>
                 </div>
 
                 <div class="form-floating mb-3">
                   <input type="text" class="form-control" id="telefono" name="telefono"
                   placeholder="mycel" required autofocus>
                   <label for="tel">Numero de telefono</label>
+                  <div class="error-tel" style="color: red; display: none;">Ingrese un número valido. Ejemplo: 2222-2222</div>
                 </div>
 
                 <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="email" name="email"
+                  <input type="email" class="form-control" id="email" name="email"
                   placeholder="myusername" required autofocus>
                   <label for="email">Correo</label>
+                  <div class="error-message" style="color: red; display: none;">Correo incorrecto</div>
                 </div>
 
                 <div class="form-floating mb-3">
@@ -118,19 +121,24 @@
                     <em id="mostrar" class="fa fa-eye" title="mostrarcontraseña"></em>
                     <em id="ocultar" class="fa fa-eye-slash" title="ocultarcontraseña"></em>
                   </span>
+                  <div class="error-contra" style="color: red; display: none;">La contraseña debe tener al menos 8 caracteres</div>
                 </div>
                 <div class="form-floating mb-3">
-                  <input type="confpassword" class="form-control" id="confpassword" name="confpassword" 
+                  <input type="password" class="form-control" id="confpassword" name="confpassword" 
                   placeholder="contraseña" required>
                   <label for="confpassword">Confirmar Contraseña</label>
+                  <div class="error-coincidir" style="color: red; display: none;">La contraseña no coincide</div>
                 </div>
-                <div class="campo" id="mover2">
+                <div class="form-floating mb-3" id="mover2">
                   <div class="cambio">Imagen o foto de perfil <strong class="error" id="btn_agregar-error"></strong></div>
                   <div id="div_file" method="post">
                     <p id="text">Agregar</p>
-                    <input type="file" id="btn_agregar" name="logo" accept="image/*">
+                    <input type="file" id="btn_agregar" name="logo" accept="image/*" required>
                   </div>
-                  <div id="previewimgs" class="styleimage"></div>
+                  <div id="previewimgs" class="styleimage">
+                    <button id="borrarImagen" style="display: none;">Borrar Imagen</button>
+                </div>
+                  <div class="error-message" style="color: red; display: none;">Este campo es obligatorio</div>
                 </div>
                 <div class="d-grid mb-2">
                   <button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" type="submit">REGISTRARSE</button>
@@ -149,16 +157,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
       function mostrarContraseña() {
+        var a = document.getElementById("confpassword");
         var x = document.getElementById("contra");
         var y = document.getElementById("ocultar");
         var z = document.getElementById("mostrar");
 
         if (x.type == 'password') {
+            a.type = "text";
             x.type = "text";
             y.style.display = "block";
             z.style.display = "none";
 
         } else {
+            a.type = "password";
             x.type = "password";
             y.style.display = "none";
             z.style.display = "block";
@@ -166,11 +177,86 @@
         }
 
       }
+// Botón para borrar la imagen
+let borrarImagenBtn = document.getElementById('borrarImagen');
+      document.querySelector('input[name="logo"]').addEventListener('change', function(e) {
+          let file = e.target.files[0];
+
+          if (file) {
+              let reader = new FileReader();
+              reader.readAsDataURL(file);
+
+              reader.onload = function() {
+                  let imagePreview = document.createElement('img');
+                  imagePreview.src = reader.result;
+                  imagePreview.style.width = '200px'; // Estilo para la vista previa
+                  imagePreview.style.height = '200px'; // Estilo para la vista previa
+
+                  let previewDiv = document.getElementById('previewimgs');
+                  previewDiv.innerHTML = ''; // Limpia el contenido previo
+                  previewDiv.appendChild(imagePreview);
+                  borrarImagenBtn.style.display = 'block';
+              }
+          }
+      });
+
+      let telefonoInput = document.querySelector('input[name="telefono"]');
+        telefonoInput.addEventListener('input', function () {
+            let telefono = telefonoInput.value;
+            let regex = /^\d{4}[\s-]?\d{4}$/; // Expresión regular para 4 números, espacio o guión, y 4 números
+
+            if (!regex.test(telefono)) {
+                // Si no coincide con el formato deseado, muestra un mensaje de error
+                document.querySelector('.error-tel').style.display = 'block';
+            } else {
+                document.querySelector('.error-tel').style.display = 'none';
+            }
+        });
+
+        
+        borrarImagenBtn.addEventListener('click', function () {
+            let previewDiv = document.getElementById('previewimgs');
+            previewDiv.innerHTML = '';
+            borrarImagenBtn.style.display = 'none';
+            document.querySelector('input[name="logo"]').value = ''; // Limpiar el valor del input file
+        });
+
 
       let form = document.querySelector('#registro-form');
 
       form.addEventListener("submit", function(e) {
         e.preventDefault();
+
+        let usuario = document.querySelector('input[name="usuario"]').value;
+        let telefono = document.querySelector('input[name="telefono"]').value;
+        let email = document.querySelector('input[name="email"]').value;
+        let password = document.querySelector('input[name="password"]').value;
+        let confirmPassword = document.querySelector('input[name="confpassword"]').value;
+
+        if (!usuario || !telefono || !email || !password || !confirmPassword) {
+            document.querySelectorAll('.error-message').forEach(function (error) {
+                error.style.display = 'block';
+            });
+            return;
+        } else {
+          document.querySelectorAll('.error-message').forEach(function (error) {
+                error.style.display = 'none';
+            });
+        }
+
+        if (password.length < 8) {
+            document.querySelector('.error-contra').style.display = 'block';
+            return;
+        } else {
+          document.querySelector('.error-contra').style.display = 'none';
+        }
+
+        if (password !== confirmPassword) {
+            document.querySelector('.error-coincidir').style.display = 'block';
+            return;
+        } else {
+          document.querySelector('.error-coincidir').style.display = 'none';
+        }
 
         let loginForm = new FormData();
         loginForm.append('nombre', document.querySelector('input[name="usuario"]').value);

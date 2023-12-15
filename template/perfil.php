@@ -55,11 +55,11 @@ $municipios = [
             </div>
             <div class="opcciones-perfil">
                 <button type="">Cambiar portada</button>
-                <button type=""><em class="fa-solid fa-arrow-right-from-bracket"></em>
+                <!--<button type=""><em class="fa-solid fa-arrow-right-from-bracket"></em>
                     <div class="linki">
                         <a href="loginUsuario/servidor/login/logout.php">Cerrar sesion</a>
                     </div>
-                </button>
+                </button>-->
             </div>
         </div>
         <div class="menu-perfil">

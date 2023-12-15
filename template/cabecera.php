@@ -133,7 +133,7 @@ if (isset($_SESSION['carrito'])) {
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ml-auto">
               <?php
-              if (!(isset($_SESSION['id']))) {
+              if (!isset($_SESSION['id']) || (isset($_SESSION['id']) && $_SESSION['id'] == 0)) {
               ?>
                 <li class="nav-item" style="font-weight: 600; margin: 6px; ">
                   <a class="nav-link active" aria-current="page" href="index.php" style="font-size: 20px;">Salones</a>
@@ -148,14 +148,14 @@ if (isset($_SESSION['carrito'])) {
                 <a class="nav-link" href="cursos.php" style="font-size: 20px;">Cursos</a>
               </li>
               <!--MIS MARCADORES DESABILITADO-->
-              <li class="nav-item" style="font-weight: 600; margin: 6px; ">
+              <!--<li class="nav-item" style="font-weight: 600; margin: 6px; ">
                 <!-- Button trigger modal -->
-                <button style=" font-size: 20px;" type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <!--<button style=" font-size: 20px;" type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                   <em class="fa fa-bookmark"></em> Mis marcadores
                 </button>
 
                 <!-- Modal -->
-                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <!--<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-scrollable">
                     <div class="modal-content">
                       <div class="modal-header">
@@ -241,7 +241,7 @@ if (isset($_SESSION['carrito'])) {
                         <div class="modal-body">
                            <!-- Button Mis Citas reservadas -->
                           <button style="color: #fff; background: transparent; border:none;" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <h5 style="font-weight: 300;" ><i class="fa fa-scissors"></i> Mis Citas Reservadas</h5>
+                            <h5 style="font-weight: 300;"><i class="fa fa-scissors"></i> Mis Citas Reservadas</h5>
                           </button>
                         </div>
                         <div class="modal-footer">
@@ -278,9 +278,9 @@ if (isset($_SESSION['carrito'])) {
             <!---logooooo---->
             <?php
             if (isset($_SESSION['logo'])) {
-              echo '<img src="img/logos/' . $_SESSION['logo'] . '" alt="Logo" style="height: 70px; border: 2px solid #000; border-radius: 50%;">';
+              echo '<img src="img/logos/' . $_SESSION['logo'] . '" alt="Logo" style="width: 70px !important; height: 70px; border: 2px solid #000; border-radius: 50%;">';
             } else {
-              echo '<img src="images/personal.png" style="height: 70px; border: 2px solid #000; border-radius: 50%;">';
+              echo '<img src="images/personal.png" style="width: 70px !important; height: 70px; border: 2px solid #000; border-radius: 50%;">';
             }
             ?>
 

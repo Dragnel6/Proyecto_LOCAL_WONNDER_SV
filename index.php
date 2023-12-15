@@ -74,7 +74,7 @@ $municipios = [
                     <br>
                     <h2></h2>
                     <em style="float: left;">
-                        <p style="color: black; font-size: 14px;">
+                        <p style="color: black; font-size:14px;">
                             <h7 class="fa fa-location-dot"> <?php echo $departamentos[$salon['departamento']] ?>, <?php echo $municipios[$salon['departamento']][$salon['municipio']] ?></h7>
                         </p>
                     </em>
